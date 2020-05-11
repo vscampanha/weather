@@ -1,11 +1,11 @@
-import { GET_CITIES, SEARCH_CITIES } from "../types";
+import { GET_CITIES, SEARCH_CITIES } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
     case SEARCH_CITIES:
       return {
         ...state,
-        city: action.payload,
+        cities: action.payload,
       };
     // case GET_CITIES:
     //   return {
