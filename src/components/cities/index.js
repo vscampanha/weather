@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import CitiesContext from "../../context/cities/citiesContext";
 
 const Cities = () => {
@@ -7,7 +7,7 @@ const Cities = () => {
   return (
     <div>
       <div>
-        <h1>{CitiesContext.city.name}</h1>
+        <h1>{citiesContext.city.name}</h1>
       </div>
     </div>
   );
