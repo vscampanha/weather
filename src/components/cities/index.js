@@ -1,13 +1,23 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
+
 import CitiesContext from '../../context/cities/citiesContext';
+
+import './style.css';
 
 const Cities = () => {
   const citiesContext = useContext(CitiesContext);
 
-  useEffect(() => {}, []);
-  console.log(citiesContext);
+  const { cities } = citiesContext;
 
-  return <div>{/* <div>{<h1>{citiesContext.cities}</h1>}</div> */}</div>;
+  return (
+    <div className='grid-3'>
+      {cities.map((city) => (
+        <div key={city} className='card'>
+          <h1>{city.name}</h1>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Cities;
