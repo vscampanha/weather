@@ -1,12 +1,12 @@
-import React, { useState, useReducer } from 'react';
-import axios from 'axios';
-import CitiesContext from './citiesContext';
-import CitiesReducer from './citiesReducer';
-import { SEARCH_CITIES } from '../types';
+import React, { useState, useReducer } from "react";
+import axios from "axios";
+import CitiesContext from "./citiesContext";
+import CitiesReducer from "./citiesReducer";
+import { SEARCH_CITIES, DELETE_CITIES } from "../types";
 
 const CitiesState = (props) => {
   const initialState = {
-    city: '',
+    city: "",
     cities: [],
   };
 
@@ -34,12 +34,23 @@ const CitiesState = (props) => {
       .then(() => {});
   };
 
+  //Delete City
+  const deleteCity = (city) => {
+    setCities([]);
+
+    dispatch({
+      type: DELETE_CITIES,
+      payload: [],
+    });
+  };
+
   return (
     <CitiesContext.Provider
       value={{
         city: state.city,
         cities: state.cities,
         searchCity,
+        deleteCity,
       }}
     >
       {props.children}

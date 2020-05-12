@@ -1,20 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from "react";
+import {
+  FiCloudDrizzle,
+  FiCloudLightning,
+  FiCloudRain,
+  FiCloudSnow,
+  FiCloud,
+  FiSun,
+  FiWind,
+} from "react-icons/fi";
 
-import CitiesContext from '../../context/cities/citiesContext';
+import City from "../city/index";
 
-import './style.css';
+import CitiesContext from "../../context/cities/citiesContext";
+
+import "./style.css";
 
 const Cities = () => {
   const citiesContext = useContext(CitiesContext);
-
   const { cities } = citiesContext;
 
   return (
-    <div className='grid-3'>
+    <div className="grid-3">
       {cities.map((city) => (
-        <div key={city} className='card'>
-          <h1>{city.name}</h1>
-        </div>
+        <City key={city.name} className="card" city={city} />
       ))}
     </div>
   );

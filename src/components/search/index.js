@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from "react";
+import axios from "axios";
 
-import './style.css';
-import CitiesContext from '../../context/cities/citiesContext';
+import "./style.css";
+import CitiesContext from "../../context/cities/citiesContext";
 
 const Search = () => {
   const citiesContext = useContext(CitiesContext);
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const onChange = (e) => {
     setText(e.target.value.toUpperCase());
@@ -15,30 +15,47 @@ const Search = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (text === '') {
-      alert('Enter City Name');
+
+    if (text === "") {
+      alert("Enter City Name");
     } else {
       citiesContext.searchCity(text);
-      setText('');
+      setText("");
     }
+  };
+
+  const onSubmitDelete = async (e) => {
+    e.preventDefault();
+    citiesContext.deleteCity();
   };
 
   return (
     <div>
-      <form className='form' onSubmit={onSubmit}>
+      <form className="form" onSubmit={onSubmit}>
         <input
-          type='text'
-          name='text'
+          type="text"
+          name="text"
           value={text}
-          placeholder='Enter City'
+          placeholder="Enter City"
           onChange={onChange}
         />
         <input
-          type='submit'
-          value='Search'
-          className='btn btn-dark btn-block'
+          type="submit"
+          value="Search"
+          className="btn btn-dark btn-block"
         />
       </form>
+      {citiesContext.cities.length > 0 ? (
+        <form className="form" onSubmit={onSubmitDelete}>
+          <input
+            type="submit"
+            value="Delete All"
+            className="btn btn-light btn-block"
+          />
+        </form>
+      ) : (
+        []
+      )}
     </div>
   );
 };

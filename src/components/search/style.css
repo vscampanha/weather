@@ -38,3 +38,13 @@ button {
   display: block;
   width: 100%;
 }
+
+.btn-dark {
+  background: #333;
+  color: #fff;
+}
+
+.btn-light {
+  background: #fff;
+  color: #999;
+}
