@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, {
+  Fragment,
+  useState,
+  useContext,
+  useRef,
+  useEffect,
+} from "react";
+import { Link } from "react-router-dom";
 import {
   FiCloudDrizzle,
   FiCloudLightning,
@@ -9,12 +16,37 @@ import {
   FiWind,
 } from "react-icons/fi";
 
+import "./style.css";
+import CitiesContext from "../../context/cities/citiesContext";
+
+const useHover = () => {
+  const ref = useRef();
+  const [hover, setHover] = useState(true);
+
+  const enter = () => setHover(true);
+  const leave = () => setHover(false);
+
+  useEffect(() => {
+    ref.current.addEventListener("mouseenter", enter);
+    ref.current.addEventListener("mouseleave", leave);
+    return () => {
+      ref.current.removeEventListener("mouseenter", enter);
+      ref.current.removeEventListener("mouseleave", leave);
+    };
+  }, [ref]);
+
+  return [ref, hover];
+};
+
 const City = ({ city: city }) => {
+  const citiesContext = useContext(CitiesContext);
+
   const [units, setUnits] = useState("ºC");
+  const [hide, setHide] = useState(false);
 
   const changeUnits = () => {
     if (units === "ºC") {
-      setUnits("ºF");
+      setUnits("K");
     } else {
       setUnits("ºC");
     }
@@ -36,23 +68,46 @@ const City = ({ city: city }) => {
     }
   };
 
+  const [ref, hover] = useHover();
+
   return (
-    <div className="card">
-      <h2>{city.name}</h2>
-      {changeIcon(city.weather[0].description)}
-      <h1>
-        {units === "ºC"
-          ? Math.round(city.main.temp)
-          : Math.round(city.main.temp * 1.8 + 32, 1)}
-        {units}
-      </h1>
-      <div>
-        <button className="btn">Forecast</button>
-        <button className="btn" onClick={changeUnits}>
-          Change to {units === "ºC" ? "ºF" : "ºC"}
-        </button>
+    <Fragment>
+      <div className="card" id={city.name}>
+        {hover && (
+          <div className="front" ref={ref}>
+            <h2>{city.name}</h2>
+            {changeIcon(city.weather[0].description)}
+            <h1>
+              {units === "ºC"
+                ? Math.round(city.main.temp)
+                : Math.round(city.main.temp + 272.15)}
+              {units}
+            </h1>
+            <div>
+              <Link
+                to={{
+                  pathname: `/city/${(city = city.name.toLowerCase())}`,
+                  state: {
+                    units: units === "ºC" ? "&units=metric" : "",
+                  },
+                }}
+                className="btn"
+              >
+                Forecast
+              </Link>
+              <button className="btn" onClick={changeUnits}>
+                Change to {units === "ºC" ? "K" : "ºC"}
+              </button>
+            </div>
+          </div>
+        )}
+        {hover && (
+          <div className="back" ref={ref}>
+            <div>ok</div>
+          </div>
+        )}
       </div>
-    </div>
+    </Fragment>
   );
 };
 

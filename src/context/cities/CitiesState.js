@@ -6,7 +6,7 @@ import { SEARCH_CITIES, DELETE_CITIES } from "../types";
 
 const CitiesState = (props) => {
   const initialState = {
-    city: "",
+    units: "",
     cities: [],
   };
 
@@ -30,8 +30,7 @@ const CitiesState = (props) => {
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .then(() => {});
+      });
   };
 
   //Delete City
@@ -47,7 +46,6 @@ const CitiesState = (props) => {
   return (
     <CitiesContext.Provider
       value={{
-        city: state.city,
         cities: state.cities,
         searchCity,
         deleteCity,

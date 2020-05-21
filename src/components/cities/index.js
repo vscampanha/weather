@@ -1,19 +1,9 @@
-import React, { useState, useContext } from "react";
-import {
-  FiCloudDrizzle,
-  FiCloudLightning,
-  FiCloudRain,
-  FiCloudSnow,
-  FiCloud,
-  FiSun,
-  FiWind,
-} from "react-icons/fi";
+import React, { useContext } from "react";
 
 import City from "../city/index";
 
-import CitiesContext from "../../context/cities/citiesContext";
-
 import "./style.css";
+import CitiesContext from "../../context/cities/citiesContext";
 
 const Cities = () => {
   const citiesContext = useContext(CitiesContext);
