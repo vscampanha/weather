@@ -1,4 +1,4 @@
-import { DELETE_CITIES, SEARCH_CITIES } from "../types";
+import { DELETE_CITIES, SEARCH_CITIES, SET_CITY } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -11,6 +11,11 @@ export default (state, action) => {
       return {
         ...state,
         cities: action.payload,
+      };
+    case SET_CITY:
+      return {
+        ...state,
+        city: action.payload,
       };
     default:
       return state;

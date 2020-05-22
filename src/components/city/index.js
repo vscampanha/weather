@@ -1,11 +1,4 @@
-import React, {
-  Fragment,
-  useState,
-  useContext,
-  useRef,
-  useEffect,
-} from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import {
   FiCloudDrizzle,
   FiCloudLightning,
@@ -13,36 +6,34 @@ import {
   FiCloudSnow,
   FiCloud,
   FiSun,
-  FiWind,
 } from "react-icons/fi";
 
+import Forecast from "../forecast";
+
 import "./style.css";
-import CitiesContext from "../../context/cities/citiesContext";
 
-const useHover = () => {
-  const ref = useRef();
-  const [hover, setHover] = useState(true);
+// const useHover = () => {
+//   const ref = useRef();
+//   const [hover, setHover] = useState(false);
 
-  const enter = () => setHover(true);
-  const leave = () => setHover(false);
+//   const enter = () => setHover(true);
+//   const leave = () => setHover(false);
 
-  useEffect(() => {
-    ref.current.addEventListener("mouseenter", enter);
-    ref.current.addEventListener("mouseleave", leave);
-    return () => {
-      ref.current.removeEventListener("mouseenter", enter);
-      ref.current.removeEventListener("mouseleave", leave);
-    };
-  }, [ref]);
+//   useEffect(() => {
+//     ref.current.addEventListener("mouseenter", enter);
+//     ref.current.addEventListener("mouseleave", leave);
+//     return () => {
+//       ref.current.removeEventListener("mouseenter", enter);
+//       ref.current.removeEventListener("mouseleave", leave);
+//     };
+//   }, [ref]);
 
-  return [ref, hover];
-};
+//   return [ref, hover];
+// };
 
 const City = ({ city: city }) => {
-  const citiesContext = useContext(CitiesContext);
-
   const [units, setUnits] = useState("ºC");
-  const [hide, setHide] = useState(false);
+  const [hover, setHover] = useState(false);
 
   const changeUnits = () => {
     if (units === "ºC") {
@@ -68,44 +59,43 @@ const City = ({ city: city }) => {
     }
   };
 
-  const [ref, hover] = useHover();
+  const flip = (e) => {
+    e.target.className === "front" ? setHover(true) : setHover(false);
+  };
+
+  // const [ref, hover] = useHover();
 
   return (
     <Fragment>
-      <div className="card" id={city.name}>
-        {hover && (
-          <div className="front" ref={ref}>
-            <h2>{city.name}</h2>
-            {changeIcon(city.weather[0].description)}
-            <h1>
-              {units === "ºC"
-                ? Math.round(city.main.temp)
-                : Math.round(city.main.temp + 272.15)}
-              {units}
-            </h1>
-            <div>
-              <Link
-                to={{
-                  pathname: `/city/${(city = city.name.toLowerCase())}`,
-                  state: {
-                    units: units === "ºC" ? "&units=metric" : "",
-                  },
-                }}
-                className="btn"
-              >
-                Forecast
-              </Link>
-              <button className="btn" onClick={changeUnits}>
-                Change to {units === "ºC" ? "K" : "ºC"}
-              </button>
-            </div>
+      <div className="container">
+        <div className="card-container">
+          <div className="card">
+            {!hover && (
+              <figure className="front" onClick={flip}>
+                <h2>{city.name}</h2>
+                {changeIcon(city.weather[0].description)}
+                <h1>
+                  {units === "ºC"
+                    ? Math.round(city.main.temp)
+                    : Math.round(city.main.temp + 272.15)}
+                  {units}
+                </h1>
+                <div>
+                  <button className="btn" onClick={changeUnits}>
+                    Change to {units === "ºC" ? "K" : "ºC"}
+                  </button>
+                </div>
+              </figure>
+            )}
+            {hover && (
+              <figure className="back" onClick={flip}>
+                <Forecast
+                  props={{ city: city.name.toLowerCase(), units: units }}
+                />
+              </figure>
+            )}
           </div>
-        )}
-        {hover && (
-          <div className="back" ref={ref}>
-            <div>ok</div>
-          </div>
-        )}
+        </div>
       </div>
     </Fragment>
   );

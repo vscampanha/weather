@@ -2,12 +2,13 @@ import React, { useState, useReducer } from "react";
 import axios from "axios";
 import CitiesContext from "./citiesContext";
 import CitiesReducer from "./citiesReducer";
-import { SEARCH_CITIES, DELETE_CITIES } from "../types";
+import { SEARCH_CITIES, DELETE_CITIES, SET_CITY } from "../types";
 
 const CitiesState = (props) => {
   const initialState = {
     units: "",
     cities: [],
+    city: "",
   };
 
   const [cities, setCities] = useState([]);
@@ -34,7 +35,7 @@ const CitiesState = (props) => {
   };
 
   //Delete City
-  const deleteCity = (city) => {
+  const deleteCity = () => {
     setCities([]);
 
     dispatch({
@@ -43,12 +44,23 @@ const CitiesState = (props) => {
     });
   };
 
+  //Set City Forecast
+  const setCity = (city) => {
+    dispatch({
+      type: SET_CITY,
+      payload: city,
+    });
+  };
+
   return (
     <CitiesContext.Provider
       value={{
         cities: state.cities,
+        city: state.city,
+        // units: state.units,
         searchCity,
         deleteCity,
+        setCity,
       }}
     >
       {props.children}
