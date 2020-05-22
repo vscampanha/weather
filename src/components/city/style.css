@@ -4,6 +4,7 @@ container {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #fff;
 }
 
 .card-container {
@@ -28,14 +29,12 @@ container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 1px solid black;
   border-radius: 10px;
 }
 
-/* .card .front {
-  background: paleturquoise;
+.card .front {
+  color: #fff;
 }
-*/
 
 .card .back {
   width: 100%;
@@ -44,4 +43,9 @@ container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  color: #fff;
+}
+
+.card .btn {
+  /* background: #a1c4fd; */
 }

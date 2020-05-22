@@ -12,25 +12,6 @@ import Forecast from "../forecast";
 
 import "./style.css";
 
-// const useHover = () => {
-//   const ref = useRef();
-//   const [hover, setHover] = useState(false);
-
-//   const enter = () => setHover(true);
-//   const leave = () => setHover(false);
-
-//   useEffect(() => {
-//     ref.current.addEventListener("mouseenter", enter);
-//     ref.current.addEventListener("mouseleave", leave);
-//     return () => {
-//       ref.current.removeEventListener("mouseenter", enter);
-//       ref.current.removeEventListener("mouseleave", leave);
-//     };
-//   }, [ref]);
-
-//   return [ref, hover];
-// };
-
 const City = ({ city: city }) => {
   const [units, setUnits] = useState("ºC");
   const [hover, setHover] = useState(false);
@@ -63,15 +44,19 @@ const City = ({ city: city }) => {
     e.target.className === "front" ? setHover(true) : setHover(false);
   };
 
-  // const [ref, hover] = useHover();
-
   return (
     <Fragment>
       <div className="container">
         <div className="card-container">
           <div className="card">
             {!hover && (
-              <figure className="front" onClick={flip}>
+              <figure
+                className="front"
+                onClick={flip}
+                style={{
+                  background: `${"linear-gradient(120deg, #a1c4fd 30%, #c2e9fb 100%)"}`,
+                }}
+              >
                 <h2>{city.name}</h2>
                 {changeIcon(city.weather[0].description)}
                 <h1>
@@ -88,7 +73,13 @@ const City = ({ city: city }) => {
               </figure>
             )}
             {hover && (
-              <figure className="back" onClick={flip}>
+              <figure
+                className="back"
+                onClick={flip}
+                style={{
+                  background: `${"linear-gradient(120deg, #a1c4fd 30%, #c2e9fb 100%)"}`,
+                }}
+              >
                 <Forecast
                   props={{ city: city.name.toLowerCase(), units: units }}
                 />
